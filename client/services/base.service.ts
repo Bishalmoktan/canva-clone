@@ -9,7 +9,7 @@ interface FetchOptions {
   params?: Record<string, any>;
 }
 
-const API_URL = process.env.API_URL || "http://localhost:5000";
+const API_URL = process.env.API_URL || "http://localhost:8000";
 
 export async function fetchWithAuth(
   endpoint: string,
@@ -27,6 +27,7 @@ export async function fetchWithAuth(
       method: options.method || "GET",
       headers: {
         Authorization: `Bearer ${session.idToken}`,
+        "Content-Type": "application/json",
         ...options.headers,
       },
       data: options.body,

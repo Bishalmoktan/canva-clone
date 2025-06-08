@@ -1,11 +1,40 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { CreditCard, FolderOpen, Home, Plus } from "lucide-react";
 
+import { saveDesign } from "@/services/design.service";
+
 function SideBar() {
+  const router = useRouter();
+
+  const handleCreateNewDesign = async () => {
+    try {
+      const initialDesignData = {
+        name: "Untitled design - Youtube Thumbnail",
+        canvasData: null,
+        width: 825,
+        height: 465,
+        category: "youtube_thumbnail",
+      };
+
+      const newDesign = await saveDesign(initialDesignData);
+
+      if (newDesign?.success) {
+        router.push(`/editor/${newDesign?.data?._id}`);
+      } else {
+        throw new Error("Failed to create new design");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <aside className="w-[72px] bg-[#f8f8fc] border-r flex flex-col items-center py-4 fixed left-0 top-0 h-full z-20">
-      <div className="flex flex-col items-center">
+      <div
+        onClick={handleCreateNewDesign}
+        className="flex flex-col items-center"
+      >
         <button className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white hover:bg-purple-700 transition-colors">
           <Plus className="w-6 h-6" />
         </button>

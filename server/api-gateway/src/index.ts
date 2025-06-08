@@ -8,18 +8,31 @@ import { authMiddleware } from "./middlewares/auth.middleware";
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
 // Middleware
 app.use(helmet());
-app.use(cors());
+const allowedOrigins = ["http://localhost:3000", "http://127.0.0.1:3000"];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // proxy
 const proxyOptions = {
   proxyReqPathResolver: (req: Request) => {
-    return req.url.replace(/^\/v1/, "/api");
+    return req.originalUrl.replace(/^\/v1/, "/api");
   },
   proxyErrorHandler: (err: Error, res: Response) => {
     res.status(500).json({
