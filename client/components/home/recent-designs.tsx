@@ -1,6 +1,7 @@
 "use client";
 
 import { getUserDesigns } from "@/services/design.service";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 function RecentDesigns() {
@@ -23,7 +24,9 @@ function RecentDesigns() {
       <div className="mt-2">
         {!recentDesigns.length && <p>No Design found</p>}
         {recentDesigns.map((design) => (
-          <div key={design._id}>{design.name}</div>
+          <Link href={`/editor/${design._id}`} key={design._id}>
+            {design.name}
+          </Link>
         ))}
       </div>
     </div>
