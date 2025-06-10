@@ -1,13 +1,17 @@
 "use client";
 
 import { initializeFabric } from "@/fabric/fabric.utils";
+import { useEditorStore } from "@/store";
+import { Canvas } from "fabric";
 import { useEffect, useRef } from "react";
 
-function Canvas() {
-  const canvasRef = useRef(null);
-  const canvasContainerRef = useRef(null);
-  const fabricCanvasRef = useRef(null);
+function CanvasComponent() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const canvasContainerRef = useRef<HTMLDivElement | null>(null);
+  const fabricCanvasRef = useRef<Canvas | null>(null);
   const initAttemptedRef = useRef(false);
+
+  const { setCanvas } = useEditorStore();
 
   useEffect(() => {
     const cleanUpCanvas = () => {
@@ -86,4 +90,4 @@ function Canvas() {
   );
 }
 
-export default Canvas;
+export default CanvasComponent;

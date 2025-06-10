@@ -1,4 +1,10 @@
-export const initializeFabric = async (canvasEl, containerEl) => {
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Canvas } from "fabric";
+
+export const initializeFabric = async (
+  canvasEl: HTMLCanvasElement,
+  containerEl: HTMLDivElement | null
+) => {
   try {
     const { Canvas, PencilBrush } = await import("fabric");
 
@@ -21,7 +27,7 @@ export const initializeFabric = async (canvasEl, containerEl) => {
   }
 };
 
-export const centerCanvas = (canvas) => {
+export const centerCanvas = (canvas: Canvas) => {
   if (!canvas || !canvas.wrapperEl) return;
 
   const canvasWrapper = canvas.wrapperEl;

@@ -17,7 +17,7 @@ function MainEditor() {
   const [loadAttempted, setLoadAttempted] = useState(false);
   const [error, setError] = useState<string | null>("");
 
-  const { canvas, setDesignId, resetStore, setCanvas } = useEditorStore();
+  const { canvas, setDesignId, resetStore } = useEditorStore();
 
   useEffect(() => {
     //reset the store
@@ -25,7 +25,7 @@ function MainEditor() {
 
     //set the design id
 
-    if (designId) setDesignId(designId);
+    if (designId) setDesignId(designId as string);
 
     return () => {
       resetStore();
@@ -63,7 +63,7 @@ function MainEditor() {
       setIsLoading(true);
       setLoadAttempted(true);
 
-      const response = await getUserDesignByID(designId);
+      const response = await getUserDesignByID(designId as string);
 
       console.log(response);
     } catch (e) {
@@ -89,6 +89,7 @@ function MainEditor() {
 
         <div className="flex-1 flex flex-col overflow-hidden relative">
           <main className="flex-1 overflow-hidden bg-[#f0f0f0] flex items-center justify-center">
+            {error && <p>{error}</p>}
             <Canvas />
           </main>
         </div>

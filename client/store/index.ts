@@ -1,9 +1,18 @@
 "use client";
 
-import { centerCanvas } from "@/fabric/fabric.utils";
+import { Canvas } from "fabric";
 import { create } from "zustand";
+import { centerCanvas } from "@/fabric/fabric.utils";
 
-export const useEditorStore = create((set) => ({
+type State = {
+  canvas: Canvas | null;
+  setCanvas: (canvas: Canvas | null) => void;
+  designId: string | null;
+  setDesignId: (id: string | null) => void;
+  resetStore: () => void;
+};
+
+export const useEditorStore = create<State>((set) => ({
   canvas: null,
   setCanvas: (canvas) => {
     set({ canvas });
@@ -19,12 +28,6 @@ export const useEditorStore = create((set) => ({
     set({
       canvas: null,
       designId: null,
-      isEditing: true,
-      name: "Untitled Design",
-      showProperties: false,
-      saveStatus: "Saved",
-      isModified: false,
-      lastModified: Date.now(),
     });
   },
 }));
