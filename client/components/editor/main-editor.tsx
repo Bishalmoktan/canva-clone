@@ -20,10 +20,7 @@ function MainEditor() {
   const { canvas, setDesignId, resetStore } = useEditorStore();
 
   useEffect(() => {
-    //reset the store
     resetStore();
-
-    //set the design id
 
     if (designId) setDesignId(designId as string);
 
@@ -65,7 +62,62 @@ function MainEditor() {
 
       const response = await getUserDesignByID(designId as string);
 
-      console.log(response);
+      const design = response.data;
+
+      if (design) {
+        setDesignId(designId as string);
+
+        try {
+          if (design.canvasData) {
+            canvas.clear();
+
+            if (design.width && design.height) {
+              canvas.setDimensions({
+                width: design.width,
+                height: design.height,
+              });
+            }
+
+            const canvasData =
+              typeof design.canvasData === "string"
+                ? JSON.parse(design.canvasData)
+                : design.canvasData;
+
+            const hasObjects =
+              canvasData.objects && canvasData.objects.length > 0;
+
+            if (canvasData.background) {
+              canvas.backgroundColor = canvasData.background;
+            } else {
+              canvas.backgroundColor = "#ffffff";
+            }
+
+            if (!hasObjects) {
+              canvas.renderAll();
+              return true;
+            }
+
+            canvas
+              .loadFromJSON(design.canvasData)
+              .then((canvas) => canvas.requestRenderAll());
+          } else {
+            console.log("Canvas data is not available");
+            canvas.clear();
+            canvas.setDimensions({
+              width: 825,
+              height: 465,
+            });
+            canvas.backgroundColor = "#FFFFFF";
+            canvas.renderAll();
+            console.log(canvas);
+          }
+        } catch (error) {
+          console.error("Error loading canvas " + error);
+          setError("Error loading canvas");
+        } finally {
+          setIsLoading(false);
+        }
+      }
     } catch (e) {
       console.error("Failed to load design", e);
       setError("failed to load design");
