@@ -10,6 +10,10 @@ type State = {
   designId: string | null;
   setDesignId: (id: string | null) => void;
   resetStore: () => void;
+  name: string;
+  setName: (name: string) => void;
+  isEditing: boolean;
+  setIsEditing: (value: boolean) => void;
 };
 
 export const useEditorStore = create<State>((set) => ({
@@ -23,6 +27,12 @@ export const useEditorStore = create<State>((set) => ({
 
   designId: null,
   setDesignId: (id) => set({ designId: id }),
+
+  isEditing: false,
+  setIsEditing: (value) => set({ isEditing: value }),
+
+  name: "Untitled Design",
+  setName: (name) => set({ name }),
 
   resetStore: () => {
     set({

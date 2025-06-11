@@ -17,7 +17,7 @@ function MainEditor() {
   const [loadAttempted, setLoadAttempted] = useState(false);
   const [error, setError] = useState<string | null>("");
 
-  const { canvas, setDesignId, resetStore } = useEditorStore();
+  const { canvas, setDesignId, resetStore, setName } = useEditorStore();
 
   useEffect(() => {
     resetStore();
@@ -63,8 +63,10 @@ function MainEditor() {
       const response = await getUserDesignByID(designId as string);
 
       const design = response.data;
+      console.log(design);
 
       if (design) {
+        setName(design.name);
         setDesignId(designId as string);
 
         try {
@@ -109,7 +111,6 @@ function MainEditor() {
             });
             canvas.backgroundColor = "#FFFFFF";
             canvas.renderAll();
-            console.log(canvas);
           }
         } catch (error) {
           console.error("Error loading canvas " + error);
