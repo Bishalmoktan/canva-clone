@@ -71,13 +71,8 @@ function Header() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <button
-          className={
-            "relative flex items-center justify-center p-1.5 rounded-md hover:bg-muted transition-colors"
-          }
-          title={"Save"}
-        >
-          <Save className={cn("h-5 w-5", "text-white")} />
+        <button className={"header-button ml-3 relative"} title={"Save"}>
+          <Save className={cn("h-5 w-5")} />
         </button>
         <button className="header-button ml-3 relative" title="Export">
           <Download className="w-5 h-5" />
